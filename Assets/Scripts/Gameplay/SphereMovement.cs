@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-namespace BallCollector
+namespace BallCollector.Gameplay
 {
     public class SphereMovement : MonoBehaviour
     {
