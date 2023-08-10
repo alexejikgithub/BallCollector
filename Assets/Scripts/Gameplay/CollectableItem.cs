@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BallCollector.Gameplay
@@ -8,25 +7,24 @@ namespace BallCollector.Gameplay
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Collider _collider;
         [SerializeField] private MeshFilter _meshFilter;
-
         [SerializeField] private float _volume;
+
 
         public float Volume => _volume;
 
-
         public void BecomeCollected()
         {
+            //Destroy(_rigidbody);
             _rigidbody.isKinematic = true;
             _collider.enabled = false;
         }
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            Debug.Log("!!!!!!!!!!!");
             if (_meshFilter != null)
             {
-                var localScale = transform.localScale;
-                _volume = VolumeOfMesh(_meshFilter.mesh) * (localScale.x + localScale.y + localScale.z) / 3;
+                var localScale = _meshFilter.transform.lossyScale;
+                _volume = VolumeOfMesh(_meshFilter.sharedMesh) * (localScale.x * localScale.y * localScale.z);
             }
         }
 
@@ -56,7 +54,7 @@ namespace BallCollector.Gameplay
 
             return Mathf.Abs(volume);
         }
-
 #endif
+        
     }
 }

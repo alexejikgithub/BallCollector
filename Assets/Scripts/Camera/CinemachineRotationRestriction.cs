@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace BallCollector.CameraExtentions
+namespace BallCollector.CameraControl
 {
     [ExecuteAlways]
     [SaveDuringPlay]
