@@ -9,14 +9,14 @@ namespace BallCollector.Gameplay
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private float _volume;
 
-
+        public Collider Collider => _collider;
         public float Volume => _volume;
 
         public void BecomeCollected()
         {
             //Destroy(_rigidbody);
             _rigidbody.isKinematic = true;
-            _collider.enabled = false;
+            _collider.isTrigger = true;
         }
 #if UNITY_EDITOR
         private void OnValidate()
