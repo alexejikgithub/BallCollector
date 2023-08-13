@@ -10,10 +10,19 @@ namespace BallCollector.Gameplay
         [SerializeField] private float _movementForce;
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _stopTime;
+        [SerializeField] private Collector _collector; //TODO move higher in the hierarchy. 
 
 
         [Inject] private InputFacade _inputFacade;
 
+
+        private float _forceFactor;
+        private float _speedFactor;
+        private float _stopTimeFactor;
+        private float _massFactor;
+        
+        
+        
         private Transform _cameraTransform;
         private Vector3 _direction = Vector3.zero;
         private Vector3 _cameraForward;
@@ -25,8 +34,15 @@ namespace BallCollector.Gameplay
 
         private void Start()
         {
+            var radius = _collector.Collider.radius;
+            _forceFactor = _movementForce / radius;
+            _speedFactor = _maxSpeed / radius;
+            _stopTimeFactor = _stopTime / radius;
+            _massFactor = _rigidbody.mass / radius;
+            
             EnableMovement();
         }
+
 
         public void EnableMovement()
         {
@@ -34,6 +50,7 @@ namespace BallCollector.Gameplay
             _inputFacade.DownTouched += StartMovement;
             _inputFacade.MouseOffsetChanged += Move;
             _inputFacade.UpTouched += StopMovement;
+            _collector.ColliderRadiusChanged += AdjustMovementParameters;
         }
 
         public void DisableMovement()
@@ -41,6 +58,15 @@ namespace BallCollector.Gameplay
             _inputFacade.DownTouched -= StartMovement;
             _inputFacade.MouseOffsetChanged -= Move;
             _inputFacade.UpTouched -= StopMovement;
+            _collector.ColliderRadiusChanged -= AdjustMovementParameters;
+        }
+
+        private void AdjustMovementParameters(float targetRadius, float growTime)
+        {
+            _movementForce = _forceFactor * targetRadius;
+            _maxSpeed = _speedFactor * targetRadius;
+            _stopTime = _stopTimeFactor * targetRadius;
+            _rigidbody.mass = _massFactor * targetRadius;
         }
 
         private void StartMovement()
@@ -86,7 +112,6 @@ namespace BallCollector.Gameplay
             }
 
             _rigidbody.velocity = Vector3.zero;
-
         }
     }
 }

@@ -1,60 +1,88 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BallCollector.Gameplay
 {
     public class CollectableItem : MonoBehaviour
     {
+        public event Action Collected; 
+
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private Collider _collider;
-        [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private Collider _mainCollider;
+        [SerializeField] private GameObject _noPhisicsCollider;
+        [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private float _volume;
+        [SerializeField] private Material _dissolveMaterial;
+        [SerializeField] private Vector2 _disolveNoiseDispersion = new Vector2(10, 30); //TODO make universal.
+        [SerializeField] private Vector2 _disolveTimeDispersion = new Vector2(1, 3); //TODO make universal.
+        private readonly int _noiseScale = Shader.PropertyToID("_NoiseScale");
+        private readonly int _alphaClip = Shader.PropertyToID("_AlphaClip");
 
-        public Collider Collider => _collider;
         public float Volume => _volume;
-
-        public void BecomeCollected()
+        
+        [ContextMenu("Disable")]
+        public void DisablePhysics()
         {
-            //Destroy(_rigidbody);
+            if (_noPhisicsCollider != null)
+            {
+                _noPhisicsCollider.SetActive(true);
+                _mainCollider.enabled = false;
+            }
+
             _rigidbody.isKinematic = true;
-            _collider.isTrigger = true;
+        }
+        [ContextMenu("Enable")]
+        public void EnablePhysics()
+        {
+            if (_noPhisicsCollider != null)
+            {
+                _noPhisicsCollider.SetActive(false);
+                _mainCollider.enabled = true;
+            }
+            
+            _rigidbody.isKinematic = false;
+        }
+
+        public void BecomeCollected(float radius)
+        {
+            _rigidbody.isKinematic = true;
+            _mainCollider.isTrigger = true;
+            
+            transform.DOLocalMove(transform.localPosition.normalized * (radius - _mainCollider.bounds.extents.magnitude), 5f).OnComplete(Dissolve); 
+            Collected?.Invoke();
+            Debug.Log("!!!!!");
+            
+        }
+
+        private void Dissolve()
+        {
+            _meshRenderer.material = new Material(_dissolveMaterial);
+            _meshRenderer.material.SetFloat(_noiseScale,
+                Random.Range(_disolveNoiseDispersion.x, _disolveNoiseDispersion.y));
+            _meshRenderer.material
+                .DOFloat(1f, _alphaClip, Random.Range(_disolveTimeDispersion.x, _disolveTimeDispersion.y))
+                .OnComplete(() => gameObject.SetActive(false));
         }
 #if UNITY_EDITOR
-        private void OnValidate()
+        public void SetVolume()
         {
-            if (_meshFilter != null)
-            {
-                var localScale = _meshFilter.transform.lossyScale;
-                _volume = VolumeOfMesh(_meshFilter.sharedMesh) * (localScale.x * localScale.y * localScale.z);
+            if (_mainCollider != null)
+            { 
+                _volume = CalculateApproximateVolume(_mainCollider) ;
             }
         }
-
-        float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
-        {
-            float v321 = p3.x * p2.y * p1.z;
-            float v231 = p2.x * p3.y * p1.z;
-            float v312 = p3.x * p1.y * p2.z;
-            float v132 = p1.x * p3.y * p2.z;
-            float v213 = p2.x * p1.y * p3.z;
-            float v123 = p1.x * p2.y * p3.z;
-            return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
-        }
-
-        float VolumeOfMesh(Mesh mesh)
-        {
-            float volume = 0;
-            Vector3[] vertices = mesh.vertices;
-            int[] triangles = mesh.triangles;
-            for (int i = 0; i < mesh.triangles.Length; i += 3)
-            {
-                Vector3 p1 = vertices[triangles[i + 0]];
-                Vector3 p2 = vertices[triangles[i + 1]];
-                Vector3 p3 = vertices[triangles[i + 2]];
-                volume += SignedVolumeOfTriangle(p1, p2, p3);
-            }
-
-            return Mathf.Abs(volume);
-        }
-#endif
         
+        float CalculateApproximateVolume(Collider collider)
+        {
+            Bounds bounds = collider.bounds;
+            Vector3 size = bounds.size;
+
+            float approximateVolume = size.x * size.y * size.z;
+            return approximateVolume;
+        }
+
+#endif
     }
 }

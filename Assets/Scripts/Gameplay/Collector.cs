@@ -14,6 +14,13 @@ namespace BallCollector.Gameplay
         [SerializeField] private SphereCollider _collider;
         [SerializeField] private float _currentVolume;
         [SerializeField] private Transform _meshTransform;
+        
+        [SerializeField] private Material _sphereMaterial; //TODO Move this field to separate class.
+        [SerializeField] private float _materialDepthRatio; //TODO Move this field to separate class.
+        
+        public SphereCollider Collider => _collider;
+        public float CurrentVolume => _currentVolume;
+        
         private List<CollectableItem> _collectableItems = new List<CollectableItem>();
 
         private float _targetRadius;
@@ -29,15 +36,21 @@ namespace BallCollector.Gameplay
         private const float _1div4 = 1.0f / 3.0f;
 
         private Vector3 _sphereCenter;
+        private readonly int _depthDistance = Shader.PropertyToID("_DepthDistance");
+        
+        
 
         private void Awake()
         {
-            var radius = _collider.radius;
-            _targetRadius = radius;
-            _currentVolume = (4.0f / 3.0f) * Mathf.PI * Mathf.Pow(radius, 3);
+            DOTween.SetTweensCapacity(2000, 50); //TODO move somewhere else.
+            
+            _targetRadius = _collider.radius;
+            _currentVolume = (4.0f / 3.0f) * Mathf.PI * Mathf.Pow(_targetRadius, 3);
 
             _targetMeshScale = _meshTransform.localScale;
             _colliderToMeshRatio = _targetMeshScale.x / _collider.radius;
+            
+           _sphereMaterial.SetFloat(_depthDistance,_materialDepthRatio*_targetRadius);
         }
 
         private void CollectItem(CollectableItem item)
@@ -46,8 +59,9 @@ namespace BallCollector.Gameplay
                 return;
             
             _collectableItems.Add(item);
-            item.BecomeCollected();
             item.transform.parent = _itemsContainer;
+            item.BecomeCollected(_collider.radius);
+
             IncreaseRadius(item.Volume);
         }
 
@@ -69,23 +83,10 @@ namespace BallCollector.Gameplay
             ColliderRadiusChanged?.Invoke(_targetRadius, _growTime);
 
             _targetMeshScale = Vector3.one * _collider.radius * _colliderToMeshRatio;
-            _meshTransform.DOScale(_targetMeshScale,_growTime);
-            DisableHiddenItems();
-        }
-
-        private void DisableHiddenItems()
-        {
+            _meshTransform.DOScale(_targetMeshScale,_growTime); //TODO remake as sequence
             
-            foreach (var item in _collectableItems)
-            {
-                _distanceToItemOuterPoint = (item.Collider.bounds.center - _collider.transform.position).magnitude;
-
-                if (_distanceToItemOuterPoint + item.Collider.bounds.extents.magnitude <= _collider.radius)
-                {
-                    item.gameObject.SetActive(false);
-                }
-            }
-            _collectableItems.RemoveAll(item => !item.gameObject.activeSelf);
+            _sphereMaterial.SetFloat(_depthDistance,_materialDepthRatio*_collider.radius); // TODO Add Interpolation.
         }
+        
     }
 }
