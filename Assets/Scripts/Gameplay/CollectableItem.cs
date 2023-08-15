@@ -17,6 +17,10 @@ namespace BallCollector.Gameplay
         [SerializeField] private Material _dissolveMaterial;
         [SerializeField] private Vector2 _disolveNoiseDispersion = new Vector2(10, 30); //TODO make universal.
         [SerializeField] private Vector2 _disolveTimeDispersion = new Vector2(1, 3); //TODO make universal.
+
+        [Space] 
+        [SerializeField] private CollectableItem[] _dependatnItems;
+        
         private readonly int _noiseScale = Shader.PropertyToID("_NoiseScale");
         private readonly int _alphaClip = Shader.PropertyToID("_AlphaClip");
 
@@ -36,6 +40,13 @@ namespace BallCollector.Gameplay
         [ContextMenu("Enable")]
         public void EnablePhysics()
         {
+            foreach (var item in _dependatnItems)
+            {
+                item.DisablePhysics();
+                item.DisableCollider();
+                item.transform.parent = transform;
+            }
+            
             if (_noPhisicsCollider != null)
             {
                 _noPhisicsCollider.SetActive(false);
@@ -43,17 +54,22 @@ namespace BallCollector.Gameplay
             }
             
             _rigidbody.isKinematic = false;
+            
         }
 
         public void BecomeCollected(float radius)
         {
             _rigidbody.isKinematic = true;
-            _mainCollider.isTrigger = true;
+            DisableCollider();
             
             transform.DOLocalMove(transform.localPosition.normalized * (radius - _mainCollider.bounds.extents.magnitude), 5f).OnComplete(Dissolve); 
             Collected?.Invoke();
-            Debug.Log("!!!!!");
             
+        }
+
+        private void DisableCollider()
+        {
+            _mainCollider.isTrigger = true;
         }
 
         private void Dissolve()
@@ -64,6 +80,10 @@ namespace BallCollector.Gameplay
             _meshRenderer.material
                 .DOFloat(1f, _alphaClip, Random.Range(_disolveTimeDispersion.x, _disolveTimeDispersion.y))
                 .OnComplete(() => gameObject.SetActive(false));
+            foreach (var item in _dependatnItems)
+            {
+                item.Dissolve();
+            }
         }
 #if UNITY_EDITOR
         public void SetVolume()

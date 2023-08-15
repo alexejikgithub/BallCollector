@@ -18,7 +18,6 @@ namespace BallCollector.Gameplay
 
         private float _forceFactor;
         private float _speedFactor;
-        private float _stopTimeFactor;
         private float _massFactor;
         
         
@@ -37,7 +36,6 @@ namespace BallCollector.Gameplay
             var radius = _collector.Collider.radius;
             _forceFactor = _movementForce / radius;
             _speedFactor = _maxSpeed / radius;
-            _stopTimeFactor = _stopTime / radius;
             _massFactor = _rigidbody.mass / radius;
             
             EnableMovement();
@@ -65,7 +63,6 @@ namespace BallCollector.Gameplay
         {
             _movementForce = _forceFactor * targetRadius;
             _maxSpeed = _speedFactor * targetRadius;
-            _stopTime = _stopTimeFactor * targetRadius;
             _rigidbody.mass = _massFactor * targetRadius;
         }
 
