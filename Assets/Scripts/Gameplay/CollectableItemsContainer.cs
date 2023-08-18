@@ -7,6 +7,7 @@ namespace BallCollector.Gameplay
     public class CollectableItemsContainer : MonoBehaviour
     {
         [SerializeField] private List<CollectableItem> _allItems;
+        [SerializeField] private List<float> _volumes;
 
         [SerializeField] private List<CollectableItem> _itemsOfUnavailableSize;
 
@@ -14,9 +15,10 @@ namespace BallCollector.Gameplay
 
         private void OnEnable()
         {
-            foreach (var item in _allItems)
+            for (var i = 0; i < _allItems.Count; i++)
             {
-                item.Collected += TryEnablingAppropriateSizeItems;
+                _allItems[i].Collected += TryEnablingAppropriateSizeItems;
+                _allItems[i].SetVolume(_volumes[i]);
             }
 
             _collector = FindObjectOfType<Collector>(); //TODO Change to Inject
@@ -42,9 +44,6 @@ namespace BallCollector.Gameplay
             }
             
             _itemsOfUnavailableSize.RemoveRange(0, enabledItemsCount);
-            Debug.Log(enabledItemsCount);
-
-            
         }
 
 #if UNITY_EDITOR
@@ -52,14 +51,17 @@ namespace BallCollector.Gameplay
         public void GetCollectableItems()
         {
             _allItems = transform.GetComponentsInChildren<CollectableItem>().ToList();
+            _volumes = new List<float>();
             foreach (var item in _allItems)
             {
                 item.EnablePhysics();
                 item.SetVolume();
                 item.DisablePhysics();
+                _volumes.Add(item.Volume);
             }
 
             _allItems = _allItems.OrderBy(item => item.Volume).ToList();
+            _volumes.Sort();
         }
 
 #endif

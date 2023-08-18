@@ -193,7 +193,7 @@ Transform:
   - {fileID: 6032108186708305336}
   - {fileID: 253149594856364176}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1911287089186834216
 MonoBehaviour:
@@ -210,11 +210,13 @@ MonoBehaviour:
   _rigidbody: {fileID: 465930230017159280}
   _mainCollider: {fileID: 5610036565639869882}
   _noPhisicsCollider: {fileID: 4585160372941241406}
-  _meshRenderer: {fileID: 4899202481347010263}
+  _meshRenderers:
+  - {fileID: 4899202481347010263}
   _volume: 19.165485
   _dissolveMaterial: {fileID: 2100000, guid: 4e76464a03b772a49a269aa501ed957e, type: 2}
   _disolveNoiseDispersion: {x: 10, y: 100}
   _disolveTimeDispersion: {x: 1, y: 3}
+  _dependatnItems: []
 --- !u!54 &465930230017159280
 Rigidbody:
   m_ObjectHideFlags: 0

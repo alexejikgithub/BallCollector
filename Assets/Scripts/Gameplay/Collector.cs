@@ -17,6 +17,7 @@ namespace BallCollector.Gameplay
         
         [SerializeField] private Material _sphereMaterial; //TODO Move this field to separate class.
         [SerializeField] private float _materialDepthRatio; //TODO Move this field to separate class.
+        [SerializeField] private float _materialStrengthRatio = 60;//TODO Move this field to separate class.
         
         public SphereCollider Collider => _collider;
         public float CurrentVolume => _currentVolume;
@@ -37,8 +38,8 @@ namespace BallCollector.Gameplay
 
         private Vector3 _sphereCenter;
         private readonly int _depthDistance = Shader.PropertyToID("_DepthDistance");
-        
-        
+        private readonly int _normalStrength = Shader.PropertyToID("_NormalStrength");
+
 
         private void Awake()
         {
@@ -51,9 +52,11 @@ namespace BallCollector.Gameplay
             _colliderToMeshRatio = _targetMeshScale.x / _collider.radius;
             
            _sphereMaterial.SetFloat(_depthDistance,_materialDepthRatio*_targetRadius);
+           _sphereMaterial.SetFloat(_normalStrength,_materialStrengthRatio*_targetRadius );
+           ColliderRadiusChanged?.Invoke(_targetRadius, 0);
         }
 
-        private void CollectItem(CollectableItem item)
+        private void TryCollectItem(CollectableItem item)
         {
             if(_currentVolume/item.Volume< _collectionFactor)
                 return;
@@ -63,13 +66,14 @@ namespace BallCollector.Gameplay
             item.BecomeCollected(_collider.radius);
 
             IncreaseRadius(item.Volume);
+            ColliderRadiusChanged?.Invoke(_targetRadius, _growTime);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.TryGetComponent(out CollectableItem item))
             {
-                CollectItem(item);
+                TryCollectItem(item);
             }
         }
 
@@ -86,6 +90,7 @@ namespace BallCollector.Gameplay
             _meshTransform.DOScale(_targetMeshScale,_growTime); //TODO remake as sequence
             
             _sphereMaterial.SetFloat(_depthDistance,_materialDepthRatio*_collider.radius); // TODO Add Interpolation.
+            _sphereMaterial.SetFloat(_normalStrength,_materialStrengthRatio*_collider.radius); // TODO Add Interpolation.
         }
         
     }

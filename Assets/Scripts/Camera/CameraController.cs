@@ -21,7 +21,6 @@ namespace BallCollector.CameraControl
         private void Awake()
         {
             _collector.ColliderRadiusChanged += SetCameraDistance;
-            
             CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
             if (componentBase is CinemachineFramingTransposer)
             {
