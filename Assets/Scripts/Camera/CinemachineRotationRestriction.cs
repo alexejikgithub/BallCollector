@@ -8,6 +8,8 @@ namespace BallCollector.CameraControl
     public class CinemachineRotationRestriction : CinemachineExtension
     {
         [SerializeField] private float _minXValue, _maxXValue;
+        [Space]
+        [SerializeField] private float _minYValue, _maxYValue;
 
         protected override void PostPipelineStageCallback(
             CinemachineVirtualCameraBase vcam,
@@ -17,6 +19,7 @@ namespace BallCollector.CameraControl
 
 
             euler.x = Mathf.Clamp(euler.x, _minXValue, _maxXValue);
+            euler.y = Mathf.Clamp(euler.y, _minYValue, _maxYValue);
 
             state.RawOrientation = Quaternion.Euler(euler);
         }
