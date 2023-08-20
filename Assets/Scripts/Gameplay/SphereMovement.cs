@@ -12,6 +12,7 @@ namespace BallCollector.Gameplay
         [SerializeField] private float _stopTime;
         [SerializeField] private Collector _collector; //TODO move higher in the hierarchy. 
 
+        private bool _useGyro=false;
 
         [Inject] private InputFacade _inputFacade;
 
@@ -46,7 +47,16 @@ namespace BallCollector.Gameplay
         {
             _cameraTransform = Camera.main.transform; //TODO remake dependency 
             _inputFacade.DownTouched += StartMovement;
-            _inputFacade.MouseOffsetChanged += Move;
+            if (_useGyro)
+            {
+                _inputFacade.GyroOffsetChanged += Move;
+            }
+            else
+            {
+                _inputFacade.MouseOffsetChanged += Move;
+            }
+            
+            
             _inputFacade.UpTouched += StopMovement;
             _collector.ColliderRadiusChanged += AdjustMovementParameters;
         }
@@ -54,7 +64,14 @@ namespace BallCollector.Gameplay
         public void DisableMovement()
         {
             _inputFacade.DownTouched -= StartMovement;
-            _inputFacade.MouseOffsetChanged -= Move;
+            if (_useGyro)
+            {
+                _inputFacade.GyroOffsetChanged -= Move;
+            }
+            else
+            {
+                _inputFacade.MouseOffsetChanged -= Move;
+            }
             _inputFacade.UpTouched -= StopMovement;
             _collector.ColliderRadiusChanged -= AdjustMovementParameters;
         }
