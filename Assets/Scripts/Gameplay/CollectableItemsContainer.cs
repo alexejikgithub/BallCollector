@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BallCollector.ScriptableObjects;
 using UnityEngine;
 
 namespace BallCollector.Gameplay
@@ -47,6 +48,7 @@ namespace BallCollector.Gameplay
         }
 
 #if UNITY_EDITOR
+        [SerializeField] private StartPositionData _startPositionData;
 
         public void GetCollectableItems()
         {
@@ -62,6 +64,32 @@ namespace BallCollector.Gameplay
 
             _allItems = _allItems.OrderBy(item => item.Volume).ToList();
             _volumes.Sort();
+        }
+
+
+        public void GetStartPositions()
+        {
+            var positions = new List<Vector3>();
+            foreach(Transform child in transform)
+            {
+                positions.Add(child.position);
+            }
+
+            _startPositionData.StartPositions = positions;
+
+        }
+        public void SetStartPositions()
+        {
+            var positions = new List<Vector3>();
+
+            int i = 0;
+            foreach(Transform child in transform)
+            {
+                child.position = _startPositionData.StartPositions[i];
+
+                i++;
+            }
+            
         }
 
 #endif

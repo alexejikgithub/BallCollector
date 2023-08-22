@@ -2,7 +2,7 @@ using BallCollector.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
-namespace BallCollector.EditorExtantions
+namespace BallCollector.EditorExtensions
 {
     [CustomEditor(typeof(CollectableItemsContainer))]
     public class CollectableItemsContainerEditor : Editor
@@ -16,6 +16,16 @@ namespace BallCollector.EditorExtantions
             if (GUILayout.Button("Get Collectable Items"))
             {
                 container.GetCollectableItems();
+            }
+            GUILayout.Space(50);
+            if (GUILayout.Button("Get Start Positions"))
+            {
+                container.GetStartPositions();
+            }
+            
+            if (GUILayout.Button("Set Start Positions"))
+            {
+                container.SetStartPositions();
             }
         }
     }
