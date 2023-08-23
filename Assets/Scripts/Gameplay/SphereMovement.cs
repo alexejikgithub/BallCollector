@@ -1,4 +1,5 @@
 using System.Collections;
+using BallCollector.CoreSystem;
 using UnityEngine;
 using Zenject;
 
@@ -39,7 +40,6 @@ namespace BallCollector.Gameplay
             _speedFactor = _maxSpeed / radius;
             _massFactor = _rigidbody.mass / radius;
             
-            EnableMovement();
         }
 
 
@@ -74,6 +74,7 @@ namespace BallCollector.Gameplay
             }
             _inputFacade.UpTouched -= StopMovement;
             _collector.ColliderRadiusChanged -= AdjustMovementParameters;
+            StopMovement();
         }
 
         private void AdjustMovementParameters(float targetRadius, float growTime)
@@ -108,6 +109,10 @@ namespace BallCollector.Gameplay
 
         private void StopMovement()
         {
+            if (_stopCoroutine != null)
+            {
+                StopCoroutine(_stopCoroutine);
+            }
             _stopCoroutine = StartCoroutine(Stopping());
         }
 

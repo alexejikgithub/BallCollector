@@ -11,6 +11,7 @@ namespace BallCollector.CameraControl
         [Space]
         [SerializeField] private float _minYValue, _maxYValue;
 
+        
         protected override void PostPipelineStageCallback(
             CinemachineVirtualCameraBase vcam,
             CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
@@ -23,5 +24,6 @@ namespace BallCollector.CameraControl
 
             state.RawOrientation = Quaternion.Euler(euler);
         }
+        
     }
 }
