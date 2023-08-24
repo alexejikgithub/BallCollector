@@ -26,6 +26,8 @@ namespace BallCollector.CameraControl
             {
                 _virtualCameraFramingTransposer = componentBase as CinemachineFramingTransposer; // your value
             }
+
+            SetPlayer();
         }
 
         private void OnDisable()
@@ -39,6 +41,13 @@ namespace BallCollector.CameraControl
             _targetDistance = Mathf.Clamp(_targetDistance, 0, _maximumDistance);
             DOTween.To(() => _virtualCameraFramingTransposer.m_CameraDistance, x => _virtualCameraFramingTransposer.m_CameraDistance = x, _targetDistance, growTime);
 
+        }
+
+        public void SetPlayer()
+        {
+            var playerTransform = _player.SphereMovement.transform;
+            _virtualCamera.Follow=playerTransform;
+            _virtualCamera.LookAt=playerTransform;
         }
     }
 }

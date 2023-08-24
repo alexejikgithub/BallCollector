@@ -1,20 +1,43 @@
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BallCollector.CoreSystem
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] private Level[] _levels;
+        [SerializeField] private SceneAsset[] _levels;
 
-        private Level _currentLevel;
+        private int _currentLevelIndex;
 
-        public void LoadLevel(int levelIndex)
+        public void LoadNextLevel()
         {
-            if (_currentLevel != null)
+            _currentLevelIndex++;
+            StartCoroutine(LoadYourAsyncScene());
+        }
+
+        public void ReloadLevel()
+        {
+            StartCoroutine(LoadYourAsyncScene());
+        }
+        
+        private IEnumerator LoadYourAsyncScene()
+        {
+            // The Application loads the Scene in the background as the current Scene runs.
+            // This is particularly good for creating loading screens.
+            // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
+            // a sceneBuildIndex of 1 as shown in Build Settings.
+
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_levels[_currentLevelIndex].name);
+
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone)
             {
-                // TODO dispose current level
+                yield return null;
+                Debug.Log("tick");
             }
-            // TODO instantiate new level
+            Debug.Log("loaded");
         }
     }
 }
