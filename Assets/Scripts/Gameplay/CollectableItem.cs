@@ -9,6 +9,7 @@ namespace BallCollector.Gameplay
     {
         public event Action Collected;
 
+        [SerializeField] private bool _isAlwaysKinematic;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Collider _mainCollider;
         [SerializeField] private GameObject _noPhisicsCollider;
@@ -36,6 +37,7 @@ namespace BallCollector.Gameplay
                 _mainCollider.enabled = false;
             }
 
+            
             _rigidbody.isKinematic = true;
         }
 
@@ -55,6 +57,8 @@ namespace BallCollector.Gameplay
                 _mainCollider.enabled = true;
             }
 
+            if(_isAlwaysKinematic)
+                return;
             _rigidbody.isKinematic = false;
         }
 
