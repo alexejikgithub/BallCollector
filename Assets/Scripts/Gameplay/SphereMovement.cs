@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using BallCollector.CoreSystem;
 using UnityEngine;
@@ -8,22 +9,23 @@ namespace BallCollector.Gameplay
     public class SphereMovement : MonoBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private float _movementForce;
+        [SerializeField] private float _accelerationTime = 0.05f;
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _stopTime;
         [SerializeField] private Collector _collector; //TODO move higher in the hierarchy. 
 
-        private bool _useGyro=false;
+
+        private float _movementForce;
+
+        private bool _useGyro = false;
 
         [Inject] private InputFacade _inputFacade;
 
 
-        private float _forceFactor;
+        //private float _forceFactor;
         private float _speedFactor;
-        private float _massFactor;
-        
-        
-        
+        private float _density;
+
         private Transform _cameraTransform;
         private Vector3 _direction = Vector3.zero;
         private Vector3 _cameraForward;
@@ -33,15 +35,28 @@ namespace BallCollector.Gameplay
 
         private Coroutine _stopCoroutine;
 
+        private bool _isMoving;
+
         private void Start()
         {
-            var radius = _collector.Collider.radius;
-            _forceFactor = _movementForce / radius;
-            _speedFactor = _maxSpeed / radius;
-            _massFactor = _rigidbody.mass / radius;
-            
+            var mass = _rigidbody.mass;
+            _speedFactor = _maxSpeed / _collector.Collider.radius;
+            _density = mass / _collector.CurrentVolume;
+
+
+            _movementForce = (_rigidbody.mass * _maxSpeed) / _accelerationTime;
+            // _forceFactor = _movementForce / (mass * _maxSpeed);
         }
 
+        private void FixedUpdate()
+        {
+            if (_isMoving)
+            {
+                _rigidbody.AddForce(_direction * _movementForce);
+                _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
+                _rigidbody.AddForce(Physics.gravity * _rigidbody.mass * 100);
+            }
+        }
 
         public void EnableMovement()
         {
@@ -55,8 +70,8 @@ namespace BallCollector.Gameplay
             {
                 _inputFacade.MouseOffsetChanged += Move;
             }
-            
-            
+
+
             _inputFacade.UpTouched += StopMovement;
             _collector.ColliderRadiusChanged += AdjustMovementParameters;
         }
@@ -72,6 +87,7 @@ namespace BallCollector.Gameplay
             {
                 _inputFacade.MouseOffsetChanged -= Move;
             }
+
             _inputFacade.UpTouched -= StopMovement;
             _collector.ColliderRadiusChanged -= AdjustMovementParameters;
             StopMovement();
@@ -79,9 +95,9 @@ namespace BallCollector.Gameplay
 
         private void AdjustMovementParameters(float targetRadius, float growTime)
         {
-            _movementForce = _forceFactor * targetRadius;
             _maxSpeed = _speedFactor * targetRadius;
-            _rigidbody.mass = _massFactor * targetRadius;
+            _rigidbody.mass = _density * _collector.CurrentVolume;
+            _movementForce = (_rigidbody.mass * _maxSpeed) / _accelerationTime;
         }
 
         private void StartMovement()
@@ -90,6 +106,8 @@ namespace BallCollector.Gameplay
             {
                 StopCoroutine(_stopCoroutine);
             }
+
+            _isMoving = true;
         }
 
         private void Move(Vector2 offset)
@@ -102,9 +120,6 @@ namespace BallCollector.Gameplay
             _cameraRight.y = 0f;
 
             _direction = _cameraForward * offset.y + _cameraRight * offset.x;
-
-            _rigidbody.AddForce(_direction * _movementForce);
-            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
         }
 
         private void StopMovement()
@@ -113,7 +128,9 @@ namespace BallCollector.Gameplay
             {
                 StopCoroutine(_stopCoroutine);
             }
+
             _stopCoroutine = StartCoroutine(Stopping());
+            _isMoving = false;
         }
 
         private IEnumerator Stopping()

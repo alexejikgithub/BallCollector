@@ -49,6 +49,7 @@ namespace BallCollector.Gameplay
 
 #if UNITY_EDITOR
         [SerializeField] private StartPositionData _startPositionData;
+        [SerializeField] private float _density=350;
 
         public void GetCollectableItems()
         {
@@ -57,7 +58,7 @@ namespace BallCollector.Gameplay
             foreach (var item in _allItems)
             {
                 item.EnablePhysics();
-                item.SetVolume();
+                item.SetData(_density);
                 item.DisablePhysics();
                 _volumes.Add(item.Volume);
             }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1794851604623599326
+--- !u!1 &1185042898789806494
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6189728942351249030}
-  - component: {fileID: 7798114907638510782}
-  - component: {fileID: 6653159434832554131}
+  - component: {fileID: 4305062686153034890}
+  - component: {fileID: 3455304037057960727}
+  - component: {fileID: 4115587875483983467}
   m_Layer: 0
-  m_Name: sword-khopesh
+  m_Name: egypt-spice-big
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6189728942351249030
+--- !u!4 &4305062686153034890
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794851604623599326}
+  m_GameObject: {fileID: 1185042898789806494}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.286}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 743378110812314935}
+  m_Father: {fileID: 7557709843826514091}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7798114907638510782
+--- !u!33 &3455304037057960727
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794851604623599326}
-  m_Mesh: {fileID: 4300000, guid: ae95b0b329c86fd469262a86bca31739, type: 3}
---- !u!23 &6653159434832554131
+  m_GameObject: {fileID: 1185042898789806494}
+  m_Mesh: {fileID: 4300000, guid: fc48eb26027ea1b4ab6bf2877b61756a, type: 3}
+--- !u!23 &4115587875483983467
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794851604623599326}
+  m_GameObject: {fileID: 1185042898789806494}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &7976207379942894753
+--- !u!1 &1255139078862855005
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,64 +91,64 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 743378110812314935}
-  - component: {fileID: 2309649733072173366}
-  - component: {fileID: 7033416342612777575}
-  - component: {fileID: 7974938169663043305}
+  - component: {fileID: 7557709843826514091}
+  - component: {fileID: 7493288625201606151}
+  - component: {fileID: 9143023009240183285}
+  - component: {fileID: 2711151092790320879}
   m_Layer: 0
-  m_Name: sword-khopesh
+  m_Name: egypt-spice-big
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &743378110812314935
+--- !u!4 &7557709843826514091
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7976207379942894753}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.259, y: 0, z: -11.749}
+  m_GameObject: {fileID: 1255139078862855005}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6189728942351249030}
+  - {fileID: 4305062686153034890}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2309649733072173366
+--- !u!114 &7493288625201606151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7976207379942894753}
+  m_GameObject: {fileID: 1255139078862855005}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d84c3156e36a064e87a35888deb257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isAlwaysKinematic: 0
-  _rigidbody: {fileID: 7974938169663043305}
-  _mainCollider: {fileID: 7033416342612777575}
+  _rigidbody: {fileID: 2711151092790320879}
+  _mainCollider: {fileID: 9143023009240183285}
   _noPhisicsCollider: {fileID: 0}
   _meshRenderers:
-  - {fileID: 6653159434832554131}
+  - {fileID: 4115587875483983467}
   _volume: 0
   _dissolveMaterial: {fileID: 2100000, guid: 4e76464a03b772a49a269aa501ed957e, type: 2}
   _dissolveNoiseFactor: 50
   _dissolveNoiseDispersion: {x: 10, y: 30}
   _disolveTimeDispersion: {x: 1, y: 3}
   _dependatnItems: []
---- !u!65 &7033416342612777575
+--- !u!65 &9143023009240183285
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7976207379942894753}
+  m_GameObject: {fileID: 1255139078862855005}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -161,15 +161,15 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1959095, y: 0.040115826, z: 0.7580414}
-  m_Center: {x: -0.05080509, y: 0, z: 0.0044555664}
---- !u!54 &7974938169663043305
+  m_Size: {x: 0.7, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2711151092790320879
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7976207379942894753}
+  m_GameObject: {fileID: 1255139078862855005}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0

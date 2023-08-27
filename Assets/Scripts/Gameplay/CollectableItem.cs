@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace BallCollector.Gameplay
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class CollectableItem : MonoBehaviour
     {
         public event Action Collected;
@@ -102,11 +103,12 @@ namespace BallCollector.Gameplay
             _volume = volume;
         }
 #if UNITY_EDITOR
-        public void SetVolume()
+        public void SetData(float density)
         {
             if (_mainCollider != null)
             {
                 _volume = CalculateExactVolume(_mainCollider);
+                _rigidbody.mass = (float)Math.Round(_volume*density,2);
             }
         }
 
@@ -146,4 +148,5 @@ namespace BallCollector.Gameplay
 
 #endif
     }
+    
 }
