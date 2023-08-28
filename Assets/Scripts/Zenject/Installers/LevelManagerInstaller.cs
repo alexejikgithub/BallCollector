@@ -9,8 +9,8 @@ namespace BallCollector.Installers
         [SerializeField] private LevelManager _levelManager;
         public override void InstallBindings()
         {
-            var inputFacadeInstance = Container.InstantiatePrefabForComponent<LevelManager>(_levelManager);
-            Container.Bind<LevelManager>().FromInstance(inputFacadeInstance).AsSingle();
+            var levelManagerInstance = Container.InstantiatePrefabForComponent<LevelManager>(_levelManager);
+            Container.Bind<LevelManager>().FromInstance(levelManagerInstance).AsSingle();
         }
     }
 }

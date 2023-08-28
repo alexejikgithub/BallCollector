@@ -16,7 +16,7 @@ namespace BallCollector.CoreSystem
         [SerializeField] private float _targetRadius;
 
         [Inject] private Player _player;
-        [Inject] private LevelManager _levelManager;
+        [Inject] private GameManager _gameManager;
 
 
         private void Start()
@@ -46,16 +46,7 @@ namespace BallCollector.CoreSystem
             DOVirtual.DelayedCall(3f, () =>
 
                 {
-                    if (_targetRadius > _player.Collector.Collider.radius)
-                    {
-                        Debug.Log("you lose");
-                        _levelManager.ReloadLevel();
-                    }
-                    else
-                    {
-                        Debug.Log("you win");
-                        _levelManager.LoadNextLevel();
-                    }
+                    _gameManager.OnLevelDone(_targetRadius <= _player.Collector.Collider.radius);
                 }
             );
         }

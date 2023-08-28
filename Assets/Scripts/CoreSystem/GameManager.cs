@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace BallCollector.CoreSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GameManager : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private LevelManager _levelManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+        public void OnLevelDone(bool isWin)
+        {
+            if (isWin)
+            {
+                _levelManager.LoadNextLevel();
+            }
+            else
+            {
+                _levelManager.ReloadLevel();
+            }
+        }
     }
 }

@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1379658097}
-  _movementForce: 30
+  _accelerationTime: 0.05
   _maxSpeed: 0.2
   _stopTime: 1
   _collector: {fileID: 1379658099}
@@ -2971,6 +2971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mass
       value: 3.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 6328869327372081544, guid: ab24428cd227ebc47bb620f5e0711704,
+        type: 3}
+      propertyPath: _isAlwaysKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6399837662466029453, guid: ab24428cd227ebc47bb620f5e0711704,
         type: 3}
