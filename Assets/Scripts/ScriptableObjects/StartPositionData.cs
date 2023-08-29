@@ -7,6 +7,7 @@ namespace BallCollector.ScriptableObjects
     public class StartPositionData : ScriptableObject
     {
         public List<Vector3> StartPositions;
+        public List<Quaternion> StartRotations;
         
     }
 }
