@@ -71,22 +71,24 @@ namespace BallCollector.Gameplay
         public void GetStartPositions()
         {
             var positions = new List<Vector3>();
+            var rotations=new List<Quaternion>();
             foreach(Transform child in transform)
             {
                 positions.Add(child.position);
+                rotations.Add(child.rotation);
             }
 
             _startPositionData.StartPositions = positions;
-
+            _startPositionData.StartRotations = rotations;
         }
         public void SetStartPositions()
         {
-            var positions = new List<Vector3>();
-
+           
             int i = 0;
             foreach(Transform child in transform)
             {
                 child.position = _startPositionData.StartPositions[i];
+                child.rotation = _startPositionData.StartRotations[i];
 
                 i++;
             }
