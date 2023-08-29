@@ -105,7 +105,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthDistance: 0.09165368
+    - _DepthDistance: 6.7917447
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _Displacement: 0.02
@@ -117,7 +117,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _NormalScale: 10
-    - _NormalStrength: 2.7496104
+    - _NormalStrength: 203.75233
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
