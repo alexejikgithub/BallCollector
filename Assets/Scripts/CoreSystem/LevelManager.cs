@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,31 +6,40 @@ namespace BallCollector.CoreSystem
 {
     public class LevelManager : MonoBehaviour
     {
+        [SerializeField] private string _mainScene;
         [SerializeField] private string[] _levels;
 
-        private int _currentLevelIndex;
 
-        public void LoadNextLevel()
+        private const string _unlockedLevelIndex = "UnlockedLevelIndex";
+        private const string _chosenLevelIndex = "ChosenLevelIndex";
+
+        public void UnlockNextLevel()
         {
-            _currentLevelIndex++;
-            StartCoroutine(LoadYourAsyncScene());
+            var newIndex = PlayerPrefs.GetInt(_unlockedLevelIndex) + 1;
+            PlayerPrefs.SetInt(_unlockedLevelIndex, newIndex);
         }
 
-        public void ReloadLevel()
+        public void ChoseLevel(int index)
         {
-            StartCoroutine(LoadYourAsyncScene());
+            PlayerPrefs.SetInt(_chosenLevelIndex, index);
+        }
+
+        public void LoadMainScene()
+        {
+            StartCoroutine(LoadScene(_mainScene));
+        }
+       
+        public void LoadLevel()
+        {
+            var currentIndex = PlayerPrefs.GetInt(_chosenLevelIndex);
+            StartCoroutine(LoadScene(_levels[currentIndex]));
         }
         
-        private IEnumerator LoadYourAsyncScene()
+        private IEnumerator LoadScene(string sceneName)
         {
-            // The Application loads the Scene in the background as the current Scene runs.
-            // This is particularly good for creating loading screens.
-            // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
-            // a sceneBuildIndex of 1 as shown in Build Settings.
+            
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_levels[_currentLevelIndex]);
-
-            // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone)
             {
                 yield return null;

@@ -5,18 +5,28 @@ namespace BallCollector.CoreSystem
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private LevelManager _levelManager;
-
-
+        
+        
         public void OnLevelDone(bool isWin)
         {
             if (isWin)
             {
-                _levelManager.LoadNextLevel();
+                _levelManager.UnlockNextLevel();
             }
-            else
-            {
-                _levelManager.ReloadLevel();
-            }
+           
+            _levelManager.LoadMainScene();
         }
+
+        public void ChoseLevel(int index)
+        {
+            _levelManager.ChoseLevel(index);
+        }
+
+        public void PlayChosenLevel()
+        {
+            _levelManager.LoadLevel();
+        }
+        
+        
     }
 }
