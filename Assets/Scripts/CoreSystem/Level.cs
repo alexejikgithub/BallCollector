@@ -45,7 +45,7 @@ namespace BallCollector.CoreSystem
             DOVirtual.DelayedCall(3f, () =>
 
                 {
-                    _gameManager.OnLevelDone(_targetRadius <= _player.Collector.Collider.radius);
+                    _gameManager.LevelDone(_targetRadius <= _player.Collector.Collider.radius);
                 }
             );
         }

@@ -7,7 +7,7 @@ namespace BallCollector.CoreSystem
         [SerializeField] private LevelManager _levelManager;
         
         
-        public void OnLevelDone(bool isWin)
+        public void LevelDone(bool isWin)
         {
             if (isWin)
             {
