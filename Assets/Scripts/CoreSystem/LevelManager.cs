@@ -9,6 +9,8 @@ namespace BallCollector.CoreSystem
         [SerializeField] private string _mainScene;
         [SerializeField] private string[] _levels;
 
+        public int LevelsCount=> _levels.Length;
+
 
         private const string _unlockedLevelIndex = "UnlockedLevelIndex";
         private const string _chosenLevelIndex = "ChosenLevelIndex";
