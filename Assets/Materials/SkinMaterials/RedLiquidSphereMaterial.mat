@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidSphereMaterial
+  m_Name: RedLiquidSphereMaterial
   m_Shader: {fileID: -6465566751694194690, guid: fa975c1eebde8194aa875ff1103be8ab,
     type: 3}
   m_Parent: {fileID: 0}
@@ -135,9 +135,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DeepColor: {r: 0.47058824, g: 0.023529412, b: 0.14901961, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LiquidColor: {r: 0.24416733, g: 0.03137237, b: 0.44339618, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SurfaceColor: {r: 0.47058824, g: 0.023529418, b: 0.14849131, a: 1}
+    - _SurfaceColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

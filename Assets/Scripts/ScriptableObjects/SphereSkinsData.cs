@@ -7,6 +7,8 @@ namespace BallCollector.ScriptableObjects
     public class SphereSkinsData : ScriptableObject
 	{
         [SerializeField] private SphereSkin[] _skins;
+        
+        public SphereSkin[] Skins => _skins;
     }
 
     [Serializable]
