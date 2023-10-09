@@ -327,7 +327,7 @@ MonoBehaviour:
   _isAlwaysKinematic: 0
   _rigidbody: {fileID: 6167059048797415673}
   _mainCollider: {fileID: 83853174524895414}
-  _noPhisicsCollider: {fileID: 0}
+  _noPhisicsCollider: {fileID: 91602570227183598}
   _meshRenderers:
   - {fileID: 4555966880343650244}
   _volume: 0
