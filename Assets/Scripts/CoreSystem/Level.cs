@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using BallCollector.CameraControl;
 using BallCollector.Gameplay;
 using DG.Tweening;
@@ -46,7 +45,7 @@ namespace BallCollector.CoreSystem
             DOVirtual.DelayedCall(3f, () =>
 
                 {
-                    _gameManager.OnLevelDone(_targetRadius <= _player.Collector.Collider.radius);
+                    _gameManager.LevelDone(_targetRadius <= _player.Collector.Collider.radius);
                 }
             );
         }

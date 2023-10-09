@@ -12,7 +12,14 @@ namespace BallCollector.Gameplay
 
         [SerializeField] private List<CollectableItem> _itemsOfUnavailableSize;
 
-        private Collector _collector; //TODO Change to Inject
+#if UNITY_EDITOR
+		[SerializeField] private StartPositionData _startPositionDataEditorOnly;
+		[SerializeField] private float _densityEditorOnly = 350;
+#endif
+
+		private Collector _collector; //TODO Change to Inject
+
+
 
         private void OnEnable()
         {
@@ -48,8 +55,6 @@ namespace BallCollector.Gameplay
         }
 
 #if UNITY_EDITOR
-        [SerializeField] private StartPositionData _startPositionData;
-        [SerializeField] private float _density=350;
 
         public void GetCollectableItems()
         {
@@ -58,7 +63,7 @@ namespace BallCollector.Gameplay
             foreach (var item in _allItems)
             {
                 item.EnablePhysics();
-                item.SetData(_density);
+                item.SetData(_densityEditorOnly);
                 item.DisablePhysics();
                 _volumes.Add(item.Volume);
             }
@@ -78,8 +83,8 @@ namespace BallCollector.Gameplay
                 rotations.Add(child.rotation);
             }
 
-            _startPositionData.StartPositions = positions;
-            _startPositionData.StartRotations = rotations;
+            _startPositionDataEditorOnly.StartPositions = positions;
+            _startPositionDataEditorOnly.StartRotations = rotations;
         }
         public void SetStartPositions()
         {
@@ -87,8 +92,8 @@ namespace BallCollector.Gameplay
             int i = 0;
             foreach(Transform child in transform)
             {
-                child.position = _startPositionData.StartPositions[i];
-                child.rotation = _startPositionData.StartRotations[i];
+                child.position = _startPositionDataEditorOnly.StartPositions[i];
+                child.rotation = _startPositionDataEditorOnly.StartRotations[i];
 
                 i++;
             }
@@ -96,5 +101,7 @@ namespace BallCollector.Gameplay
         }
 
 #endif
-    }
+	}
+
+
 }

@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab38cab973d4c514999aba2c44471f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainScene: MainMenu
   _levels:
   - Level_0001
   - Level_0002
+  - Level_0003

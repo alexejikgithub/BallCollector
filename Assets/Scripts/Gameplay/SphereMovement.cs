@@ -54,7 +54,7 @@ namespace BallCollector.Gameplay
             {
                 _rigidbody.AddForce(_direction * _movementForce);
                 _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
-                _rigidbody.AddForce(Physics.gravity * _rigidbody.mass * 10);
+                _rigidbody.AddForce(Physics.gravity * (_movementForce));
             }
         }
 
